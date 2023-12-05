@@ -1,0 +1,114 @@
+interface Shape {
+    double getPerimeter();
+    double getArea();
+    void getDetails();
+}
+
+class Circle implements Shape {
+    final float PI = 3.14F;
+    int radius;
+
+    Circle(int radius) {
+        if (radius < 0) {
+            throw new IllegalArgumentException("Radius cannot be negative");
+        }
+        this.radius = radius;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return 2 * PI * radius;
+    }
+
+    @Override
+    public double getArea() {
+        return PI * radius * radius;
+    }
+
+    @Override
+    public void getDetails() {
+        System.out.println("Type: Circle");
+        System.out.println("Radius: " + radius);
+        System.out.println("Perimeter: " + getPerimeter());
+        System.out.println("Area: " + getArea());
+    }
+}
+
+class Rectangle implements Shape {
+    int length;
+    int width;
+
+    Rectangle(int length, int width) {
+        if (length < 0 || width < 0) {
+            throw new IllegalArgumentException("Length and width cannot be negative");
+        }
+        if (length < width) {
+            throw new IllegalArgumentException("Length should be greater than width");
+        }
+        this.length = length;
+        this.width = width;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return 2 * (length + width);
+    }
+
+    @Override
+    public double getArea() {
+        return length * width;
+    }
+
+    @Override
+    public void getDetails() {
+        System.out.println("Type: Rectangle");
+        System.out.println("Length: " + length);
+        System.out.println("Width: " + width);
+        System.out.println("Perimeter: " + getPerimeter());
+        System.out.println("Area: " + getArea());
+    }
+}
+
+// Similar implementations for Square and Triangle classes...
+
+public class TestShapes {
+    public static void main(String[] args) {
+        if (args.length == 1) {
+            try {
+                int radius = Integer.parseInt(args[0]);
+                Circle circle = new Circle(radius);
+                circle.getDetails();
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Invalid input");
+            }
+        } else if (args.length == 2) {
+            try {
+                int side1 = Integer.parseInt(args[0]);
+                int side2 = Integer.parseInt(args[1]);
+
+                if (side1 == side2) {
+                    Square square = new Square(side1);
+                    square.getDetails();
+                } else {
+                    Rectangle rectangle = new Rectangle(Math.max(side1, side2), Math.min(side1, side2));
+                    rectangle.getDetails();
+                }
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Invalid input");
+            }
+        } else if (args.length == 3) {
+            try {
+                int side1 = Integer.parseInt(args[0]);
+                int side2 = Integer.parseInt(args[1]);
+                int side3 = Integer.parseInt(args[2]);
+
+                Triangle triangle = new Triangle(side1, side2, side3);
+                triangle.getDetails();
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Invalid input");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid number of inputs");
+        }
+    }
+}
